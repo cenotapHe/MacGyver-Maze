@@ -7,8 +7,11 @@ Execute it with Python for launche the game.
 """
 
 import os
+import pygame
+from pygame.locals import *
 
 from map import Map
+
 
 # We load the existing map
 maps = []
@@ -25,45 +28,25 @@ for file_name in os.listdir("map"):
 
 maze = map.maze
 
+# Initialisation of the Pygame library
+pygame.init()
+
+fenetre = pygame.display.set_mode((600, 600))
+
 # Now, display the map and allow to play at every tour
 maze.display()
 while not maze.won_the_game:
-    coup = input("> ")
-    if coup == "":
-        continue
-    elif coup.lower() == "q":
-        # We quit the game
-        break
-    elif coup[0].lower() in "nseo":
-        letter = coup[0].lower()
-        if letter == "e":
-            direction = "east"
-        elif letter == "s":
-            direction = "south"
-        elif letter == "o":
-            direction = "west"
-        else:
-            direction = "north"
 
-        # We try to convert the move
-        coup = coup[1:]
-        if coup == "":
-            number = 1
-        else:
-            try:
-                number = int(coup)
-            except ValueError:
-                print("Invalid number : {}".format(coup))
-                continue
-
-        maze.move_macgyver(direction)
-    else:
-        print("Coups autorisés :")
-        print("  Q pour quitter la partie en cours")
-        print("  E pour déplacer MacGyver vers l'est")
-        print("  S pour déplacer MacGyver vers le sud")
-        print("  O pour déplacer MacGyver vers l'ouest")
-        print("  N pour déplacer MacGyver vers le nord")
+    for event in pygame.event.get():
+        if event.type == KEYDOWN:
+            if event.key == K_RIGHT:
+                maze.move_macgyver("east")
+            if event.key == K_LEFT:
+                maze.move_macgyver("west")
+            if event.key == K_UP:
+                maze.move_macgyver("north")
+            if event.key == K_DOWN:
+                maze.move_macgyver("south")
 
 
 if maze.won_the_game:
