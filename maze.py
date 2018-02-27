@@ -204,7 +204,7 @@ def create_maze_from_chain(chain):
         elif letter == " ":
             if not ether:
                 prob = random.randint(0, 50)
-                if x == 12 and y == 12 :
+                if x == 12 and y == 11 :
                     prob = 50
                 if prob == 50 :
                     classe = symbols["e"]
@@ -213,7 +213,7 @@ def create_maze_from_chain(chain):
                     ether = True
             if not needle:
                 prob = random.randint(0, 50)
-                if x == 2 and y == 9 :
+                if x == 3 and y == 9 :
                     prob = 50
                 if prob == 50 :
                     classe = symbols["n"]
