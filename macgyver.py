@@ -3,7 +3,7 @@
 """This module containing the class MacGyver.
 
 This isn't the file for launche the game
-(=> start_game.py).
+(=> main.py).
 
 """
 
