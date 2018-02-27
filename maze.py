@@ -4,9 +4,13 @@
 
 import os
 import pickle
+import random
 
 from obstacle.wall import Wall
 from obstacle.guard import Guard
+from obstacle.ether import Ether
+from obstacle.needle import Needle
+from obstacle.straw import Straw
 from macgyver import MacGyver
 
 import pygame
@@ -34,11 +38,14 @@ class Maze:
         self.macgyver = macgyver
         self.grid = {}
         self.grid[macgyver.x, macgyver.y] = macgyver
-        self.obstacles = obstacles
         self.macgyver.x = macgyver.x
         self.macgyver.y = macgyver.y
         
         self.won_the_game = False
+        self.own_ether = False
+        self.own_needle = False
+        self.own_straw = False
+
         for obstacle in obstacles:
             if (obstacle.x, obstacle.y) in self.grid:
                 raise ValueError("the coordinated x={} y={} are already " \
@@ -50,6 +57,8 @@ class Maze:
                         "larges".format(obstacle))
 
             self.grid[obstacle.x, obstacle.y] = obstacle
+
+        self.obstacles = obstacles
             
 
     def pygame(self):
@@ -57,18 +66,31 @@ class Maze:
         self.fond = pygame.image.load("background.jpg").convert()
         self.fenetre.blit(self.fond, (0, 0))
 
-        self.player = pygame.image.load("MacGyver.png").convert_alpha()
-        self.player_position = self.player.get_rect()
-        self.player_position = self.player_position.move((self.macgyver.x*40, self.macgyver.y*40))
-        self.fenetre.blit(self.player, self.player_position)
-
         for obstacle in self.obstacles:
             if obstacle.symbol == "G":
                 self.guard_picture = pygame.image.load("Gardien.png")
                 self.fenetre.blit(self.guard_picture, (obstacle.x*40, obstacle.y*40))
             if obstacle.symbol == "X":
-                self.wall_picture = pygame.image.load("carre_de_mur.jpg")
-                self.fenetre.blit(self.wall_picture, (obstacle.x*40, obstacle.y*40))
+                self.wall_picture = pygame.image.load("fire1.png")
+                self.wall_picture2 = pygame.image.load("fire2.png")
+                self.wall_picture3 = pygame.image.load("fire3.png")
+                self.mur_final = random.choice([self.wall_picture, self.wall_picture2,self.wall_picture3])
+                self.fenetre.blit(self.mur_final, (obstacle.x*40 + random.randint(-20, 0), obstacle.y*40))
+            if obstacle.symbol == "E":
+                self.guard_picture = pygame.image.load("Gardien.png")
+                self.fenetre.blit(self.guard_picture, (obstacle.x*40, obstacle.y*40))
+            if obstacle.symbol == "N":
+                self.guard_picture = pygame.image.load("Gardien.png")
+                self.fenetre.blit(self.guard_picture, (obstacle.x*40, obstacle.y*40))
+            if obstacle.symbol == "S":
+                self.guard_picture = pygame.image.load("Gardien.png")
+                self.fenetre.blit(self.guard_picture, (obstacle.x*40, obstacle.y*40))
+
+
+        self.player = pygame.image.load("MacGyver.png").convert_alpha()
+        self.player_position = self.player.get_rect()
+        self.player_position = self.player_position.move((self.macgyver.x*40, self.macgyver.y*40))
+        self.fenetre.blit(self.player, self.player_position)
 
     def display(self):
         """Display the maze in a console.
@@ -140,8 +162,6 @@ class Maze:
                     obstacle.arrive(self, macgyver)
 
 
-
-
 def create_maze_from_chain(chain):
     """Created a maze from a chain.
 
@@ -152,11 +172,17 @@ def create_maze_from_chain(chain):
         "x": Wall,
         "m": MacGyver,
         "g": Guard,
+        "e": Ether,
+        "n": Needle,
+        "s": Straw
     }
 
     x = 0
     y = 0
     macgyver = None
+    ether = False
+    needle = False
+    straw = False
     obstacles = []
     for letter in chain:
         if letter == "\n":
@@ -164,6 +190,33 @@ def create_maze_from_chain(chain):
             y += 1
             continue
         elif letter == " ":
+            if not ether:
+                prob = random.randint(0, 500)
+                if x == 12 and y == 12 :
+                    prob = 50
+                if prob == 50 :
+                    classe = symbols["e"]
+                    item = classe(x, y)
+                    obstacles.append(item)
+                    ether = True
+            if not needle:
+                prob = random.randint(0, 500)
+                if x == 2 and y == 9 :
+                    prob = 50
+                if prob == 50 :
+                    classe = symbols["n"]
+                    item = classe(x, y)
+                    obstacles.append(item)
+                    needle = True
+            if not straw:
+                prob = random.randint(0, 500)
+                if x == 2 and y == 12 :
+                    prob = 50
+                if prob == 50 :
+                    classe = symbols["s"]
+                    item = classe(x, y)
+                    obstacles.append(item)
+                    straw = True
             pass
         elif letter.lower() in symbols:
             classe = symbols[letter.lower()]
