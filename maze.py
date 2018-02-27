@@ -9,6 +9,9 @@ from obstacle.wall import Wall
 from obstacle.guard import Guard
 from macgyver import MacGyver
 
+import pygame
+from pygame.locals import *
+
 
 class Maze:
 
@@ -27,9 +30,14 @@ class Maze:
     limit_y = 15
 
     def __init__(self, macgyver, obstacles):
+        self.fenetre = pygame.display.set_mode((600, 600))
         self.macgyver = macgyver
         self.grid = {}
         self.grid[macgyver.x, macgyver.y] = macgyver
+        self.obstacles = obstacles
+        self.macgyver.x = macgyver.x
+        self.macgyver.y = macgyver.y
+        
         self.won_the_game = False
         for obstacle in obstacles:
             if (obstacle.x, obstacle.y) in self.grid:
@@ -42,6 +50,28 @@ class Maze:
                         "larges".format(obstacle))
 
             self.grid[obstacle.x, obstacle.y] = obstacle
+            
+
+    def pygame(self):
+
+        self.fond = pygame.image.load("background.jpg").convert()
+        self.fenetre.blit(self.fond, (0, 0))
+        self.fenetre.blit(self.fond, (0, 450))
+        self.fenetre.blit(self.fond, (450, 0))
+        self.fenetre.blit(self.fond, (450, 450))
+
+        self.player = pygame.image.load("MacGyver.png").convert_alpha()
+        self.player_position = self.player.get_rect()
+        self.player_position = self.player_position.move((self.macgyver.x*40, self.macgyver.y*40))
+        self.fenetre.blit(self.player, self.player_position)
+
+        for obstacle in self.obstacles:
+            if obstacle.symbol == "G":
+                self.guard_picture = pygame.image.load("Gardien.png")
+                self.fenetre.blit(self.guard_picture, (obstacle.x*40, obstacle.y*40))
+            if obstacle.symbol == "X":
+                self.wall_picture = pygame.image.load("carre_de_mur.jpg")
+                self.fenetre.blit(self.wall_picture, (obstacle.x*40, obstacle.y*40))
 
     def display(self):
         """Display the maze in a console.
@@ -76,7 +106,7 @@ class Maze:
         The direction (FOR NOW) need to be precised on a chain, "north",
         "east", "south", or "west".
 
-        If MacGyver met a impassable obstacle, he stop.
+        If MacGyver meet a impassable obstacle, he stops.
 
         """
         macgyver = self.macgyver
@@ -111,6 +141,8 @@ class Maze:
                 # We call the method 'arrive' of obstacle, if it exist
                 if obstacle:
                     obstacle.arrive(self, macgyver)
+
+
 
 
 def create_maze_from_chain(chain):

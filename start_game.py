@@ -31,11 +31,15 @@ maze = map.maze
 # Initialisation of the Pygame library
 pygame.init()
 
-fenetre = pygame.display.set_mode((600, 600))
-
 # Now, display the map and allow to play at every tour
 maze.display()
+
+
 while not maze.won_the_game:
+
+    maze.pygame()
+
+    pygame.display.flip()
 
     for event in pygame.event.get():
         if event.type == KEYDOWN:
