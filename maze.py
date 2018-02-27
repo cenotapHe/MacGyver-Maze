@@ -56,9 +56,6 @@ class Maze:
 
         self.fond = pygame.image.load("background.jpg").convert()
         self.fenetre.blit(self.fond, (0, 0))
-        self.fenetre.blit(self.fond, (0, 450))
-        self.fenetre.blit(self.fond, (450, 0))
-        self.fenetre.blit(self.fond, (450, 450))
 
         self.player = pygame.image.load("MacGyver.png").convert_alpha()
         self.player_position = self.player.get_rect()
