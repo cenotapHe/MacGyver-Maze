@@ -4,6 +4,12 @@
 
 from obstacle.obstacle import Obstacle
 
+import pygame
+from pygame.locals import *
+
+pygame.init()
+son = pygame.mixer.Sound("music/bring.wav")
+
 class Needle(Obstacle):
 
     """Class representing the guard in front of the maze issue.
@@ -25,6 +31,7 @@ class Needle(Obstacle):
 
         """
         maze.own_needle = True
+        son.play()
         for obstacle in maze.obstacles:
             if obstacle.symbol == "N":
                 maze.obstacles.remove(obstacle)

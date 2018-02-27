@@ -24,4 +24,7 @@ class Guard(Obstacle):
         The game is won !
 
         """
-        maze.won_the_game = True
+        if maze.own_ether == True and maze.own_needle == True and maze.own_straw == True :
+            maze.won_the_game = True
+        else :
+            maze.loose_the_game = True

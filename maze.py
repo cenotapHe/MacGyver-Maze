@@ -42,6 +42,7 @@ class Maze:
         self.macgyver.y = macgyver.y
         
         self.won_the_game = False
+        self.loose_the_game = False
         self.own_ether = False
         self.own_needle = False
         self.own_straw = False
@@ -63,33 +64,44 @@ class Maze:
 
     def pygame(self):
 
-        self.fond = pygame.image.load("background.jpg").convert()
+        self.fond = pygame.image.load("picture/background.jpg").convert()
         self.fenetre.blit(self.fond, (0, 0))
 
         for obstacle in self.obstacles:
             if obstacle.symbol == "G":
-                self.guard_picture = pygame.image.load("Gardien.png")
-                self.fenetre.blit(self.guard_picture, (obstacle.x*40, obstacle.y*40))
+                self.guard_picture = pygame.image.load("picture/Gardien.png")
+                self.fenetre.blit(self.guard_picture, (obstacle.x*40, obstacle.y*40 - 10))
             if obstacle.symbol == "X":
-                self.wall_picture = pygame.image.load("fire1.png")
-                self.wall_picture2 = pygame.image.load("fire2.png")
-                self.wall_picture3 = pygame.image.load("fire3.png")
+                self.wall_picture = pygame.image.load("picture/fire1.png")
+                self.wall_picture2 = pygame.image.load("picture/fire2.png")
+                self.wall_picture3 = pygame.image.load("picture/fire3.png")
                 self.mur_final = random.choice([self.wall_picture, self.wall_picture2,self.wall_picture3])
-                self.fenetre.blit(self.mur_final, (obstacle.x*40 + random.randint(-20, 0), obstacle.y*40))
+                self.fenetre.blit(self.mur_final, (obstacle.x*40 - 15, obstacle.y*40 - 23))
+                self.mur_final = random.choice([self.wall_picture, self.wall_picture2,self.wall_picture3])
+                self.fenetre.blit(self.mur_final, (obstacle.x*40, obstacle.y*40 - 10))
             if obstacle.symbol == "E":
-                self.guard_picture = pygame.image.load("Gardien.png")
-                self.fenetre.blit(self.guard_picture, (obstacle.x*40, obstacle.y*40))
+                self.ether_picture = pygame.image.load("picture/ether.png")
+                self.fenetre.blit(self.ether_picture, (obstacle.x*40 + 10, obstacle.y*40))
             if obstacle.symbol == "N":
-                self.guard_picture = pygame.image.load("Gardien.png")
-                self.fenetre.blit(self.guard_picture, (obstacle.x*40, obstacle.y*40))
+                self.needle_picture = pygame.image.load("picture/needle.png")
+                self.fenetre.blit(self.needle_picture, (obstacle.x*40 + 10, obstacle.y*40))
             if obstacle.symbol == "S":
-                self.guard_picture = pygame.image.load("Gardien.png")
-                self.fenetre.blit(self.guard_picture, (obstacle.x*40, obstacle.y*40))
+                self.straw_picture = pygame.image.load("picture/straw.png")
+                self.fenetre.blit(self.straw_picture, (obstacle.x*40 + 10, obstacle.y*40))
 
+        self.inventory = pygame.image.load("picture/inventory.png").convert()
+        self.fenetre.blit(self.inventory, (467, 20))
 
-        self.player = pygame.image.load("MacGyver.png").convert_alpha()
+        if self.own_ether == True :
+            self.fenetre.blit(self.ether_picture, (482, 51))
+        if self.own_needle == True :
+            self.fenetre.blit(self.needle_picture, (512, 51))
+        if self.own_straw == True :
+            self.fenetre.blit(self.straw_picture, (547, 56))
+
+        self.player = pygame.image.load("picture/MacGyver.png").convert_alpha()
         self.player_position = self.player.get_rect()
-        self.player_position = self.player_position.move((self.macgyver.x*40, self.macgyver.y*40))
+        self.player_position = self.player_position.move((self.macgyver.x*40, self.macgyver.y*40 - 20))
         self.fenetre.blit(self.player, self.player_position)
 
     def display(self):
@@ -191,7 +203,7 @@ def create_maze_from_chain(chain):
             continue
         elif letter == " ":
             if not ether:
-                prob = random.randint(0, 500)
+                prob = random.randint(0, 50)
                 if x == 12 and y == 12 :
                     prob = 50
                 if prob == 50 :
@@ -200,7 +212,7 @@ def create_maze_from_chain(chain):
                     obstacles.append(item)
                     ether = True
             if not needle:
-                prob = random.randint(0, 500)
+                prob = random.randint(0, 50)
                 if x == 2 and y == 9 :
                     prob = 50
                 if prob == 50 :
@@ -209,7 +221,7 @@ def create_maze_from_chain(chain):
                     obstacles.append(item)
                     needle = True
             if not straw:
-                prob = random.randint(0, 500)
+                prob = random.randint(0, 50)
                 if x == 2 and y == 12 :
                     prob = 50
                 if prob == 50 :

@@ -4,6 +4,12 @@
 
 from obstacle.obstacle import Obstacle
 
+import pygame
+from pygame.locals import *
+
+pygame.init()
+son = pygame.mixer.Sound("music/bring.wav")
+
 class Ether(Obstacle):
 
     """Class representing the guard in front of the maze issue.
@@ -17,6 +23,7 @@ class Ether(Obstacle):
     can_cross = True
     name = "ether"
     symbol = "E"
+    
 
     def arrive(self, maze, macgyver):
         """MacGyver arrive on the issue.
@@ -25,6 +32,7 @@ class Ether(Obstacle):
 
         """
         maze.own_ether = True
+        son.play()
         for obstacle in maze.obstacles:
             if obstacle.symbol == "E":
                 maze.obstacles.remove(obstacle)
