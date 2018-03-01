@@ -11,22 +11,9 @@ import pygame
 from pygame.locals import *
 
 from map import Map
+from map import pick_the_map_from_txt
 
-
-# We load the existing map
-maps = []
-for file_name in os.listdir("map"):
-    if file_name.endswith(".txt"):
-        pathway = os.path.join("map", file_name)
-        with open(pathway, "r") as file:
-            containing = file.read()
-            try:
-                map = Map(containing)
-            except ValueError as err:
-                print("Error from the read of {} : {}.".format(
-                        pathway, str(err)))
-
-maze = map.maze
+maze = pick_the_map_from_txt().maze
 
 # Initialisation of the Pygame library
 pygame.init()
