@@ -21,6 +21,11 @@ class Guard(Obstacle):
     def arrive(self, maze, macgyver):
         """MacGyver arrive on the issue.
 
+        If he own Ether, Needle and Straw, he can put to sleep the guard.
+        And won the game.
+
+        If some item miss to MacGyver, the guard kills him.
+
         The game is won !
 
         """

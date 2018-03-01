@@ -63,6 +63,8 @@ class Maze:
             
 
     def pygame(self):
+        """Display all the element graphic in the pygame console.
+        """
 
         self.fond = pygame.image.load("picture/background.jpg").convert()
         self.fenetre.blit(self.fond, (0, 0))
@@ -104,6 +106,7 @@ class Maze:
         self.player_position = self.player_position.move((self.macgyver.x*40, self.macgyver.y*40 - 20))
         self.fenetre.blit(self.player, self.player_position)
 
+    
     def display(self):
         """Display the maze in a console.
 
@@ -134,7 +137,7 @@ class Maze:
     def move_macgyver(self, direction):
         """Move MacGyver.
 
-        The direction (FOR NOW) need to be precised on a chain, "north",
+        The direction need to be precised on a chain, "north",
         "east", "south", or "west".
 
         If MacGyver meet a impassable obstacle, he stops.
