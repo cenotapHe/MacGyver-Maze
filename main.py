@@ -21,9 +21,6 @@ pygame.init()
 pygame.mixer.music.load("music/hurry.mp3")
 pygame.mixer.music.play()
 
-# Now, display the map and allow to play at every tour
-maze.display()
-
 
 while not maze.won_the_game and not maze.loose_the_game:
 

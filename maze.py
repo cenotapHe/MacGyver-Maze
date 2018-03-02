@@ -72,7 +72,7 @@ class Maze:
         for obstacle in self.obstacles:
             if obstacle.symbol == "G":
                 self.guard_picture = pygame.image.load("picture/Gardien.png")
-                self.fenetre.blit(self.guard_picture, (obstacle.x*40, obstacle.y*40 - 10))
+                self.fenetre.blit(self.guard_picture, (obstacle.x*40, obstacle.y*40 + 30))
             if obstacle.symbol == "X":
                 self.wall_picture = pygame.image.load("picture/fire1.png")
                 self.wall_picture2 = pygame.image.load("picture/fire2.png")
@@ -112,6 +112,8 @@ class Maze:
 
         We take the limits for display the grid. The obstacles and
         MacGyver are display in using their attribut of class 'symbol'.
+        
+        Uses this method only for debug the game in the console.
 
         """
         y = 0
@@ -170,7 +172,6 @@ class Maze:
                 self.grid[x, y] = macgyver
                 macgyver.x = x
                 macgyver.y = y
-                self.display()
 
                 # We call the method 'arrive' of obstacle, if it exist
                 if obstacle:
