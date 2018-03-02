@@ -7,6 +7,7 @@ Execute it with Python for launche the game.
 """
 
 import os
+import time
 import pygame
 from pygame.locals import *
 
@@ -20,6 +21,10 @@ pygame.init()
 
 pygame.mixer.music.load("music/hurry.mp3")
 pygame.mixer.music.play()
+
+maze.pygame()
+pygame.display.flip()
+time.sleep(5)
 
 
 while not maze.won_the_game and not maze.loose_the_game:
@@ -38,9 +43,8 @@ while not maze.won_the_game and not maze.loose_the_game:
     maze.pygame()
     pygame.display.flip()
 
-if maze.won_the_game:
+if maze.won_the_game or maze.loose_the_game:
     pygame.mixer.music.stop()
-    print("Felicitation !\nAvec l'ether, l'aiguille et la paille vous avez endormi le garde !\nYou won the game !")
-if maze.loose_the_game:
-    pygame.mixer.music.stop()
-    print("Vous n'avez pas collecter l'ether, l'aiguille et la paille\npour endormir le garde.\nIl vous tue !")
+    maze.end_of_the_game()
+    pygame.display.flip()
+    time.sleep(5)

@@ -41,6 +41,7 @@ class Maze:
         self.macgyver.x = macgyver.x
         self.macgyver.y = macgyver.y
         
+        self.start = True
         self.won_the_game = False
         self.loose_the_game = False
         self.own_ether = False
@@ -106,13 +107,19 @@ class Maze:
         self.player_position = self.player_position.move((self.macgyver.x*40, self.macgyver.y*40 - 20))
         self.fenetre.blit(self.player, self.player_position)
 
+        if self.start == True :
+
+            self.discussion = pygame.image.load("picture/discussion_start.png").convert()
+            self.fenetre.blit(self.discussion, (150, 200))
+            self.start = False
+
     
     def display(self):
         """Display the maze in a console.
 
         We take the limits for display the grid. The obstacles and
         MacGyver are display in using their attribut of class 'symbol'.
-        
+
         Uses this method only for debug the game in the console.
 
         """
@@ -176,6 +183,15 @@ class Maze:
                 # We call the method 'arrive' of obstacle, if it exist
                 if obstacle:
                     obstacle.arrive(self, macgyver)
+
+    def end_of_the_game(self):
+
+        if self.won_the_game:
+            self.discussion2 = pygame.image.load("picture/discussion_end1.png").convert()
+            self.fenetre.blit(self.discussion2, (150, 200))
+        if self.loose_the_game:
+            self.discussion3 = pygame.image.load("picture/discussion_end2.png").convert()
+            self.fenetre.blit(self.discussion3, (150, 200))
 
 
 def create_maze_from_chain(chain):
