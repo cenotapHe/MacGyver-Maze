@@ -41,7 +41,7 @@ This game is developped  as part of the project "Aidez MacGyver à s'échapper !
 
 ## Contributing
 
-RESIN Nicolas - Mentor fot this project
+RESIN Nicolas - Mentor for this project
 
 ## Versioning
 
